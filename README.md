@@ -29,3 +29,7 @@ $ yarn run test:e2e
 # test coverage
 $ yarn run test:user
 ```
+
+docker build -f Dockerfile.base -t crud-image:nx-base .
+docker build -f Dockerfile.deps -t crud-image:deps .
+docker compose -f docker-compose.qa.yml up --build -d

@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  app:
+    build:
+      cache_from:
+        - crud-image:nx-base
+      context: ./
+      dockerfile: ./Dockerfile
+    container_name: crud-app
+    image: app:nest-prod
+    environment:
+      - PORT=${PORT}
+      - NODE_ENV=${NODE_ENV}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASS=${MYSQL_PASS}
+      - MYSQL_DB=${MYSQL_DB}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_LOG=${MYSQL_LOG}
+      - DB_SYNC=false
+    ports:
+      - '${PORT}:${PORT}'
+    restart: on-failure
+    networks:
+      - crud-network
+networks:
+  crud-network:
+    driver: bridge
