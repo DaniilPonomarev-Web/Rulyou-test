@@ -11,8 +11,8 @@ import { IUpdateUserPayload } from '../types/user.types';
 // import { Role } from '../enums/role.enum';
 
 export class UpdateUserPayloadDTO implements IUpdateUserPayload {
-  @IsString({ message: 'Поле "full_name" должно быть строкой' })
   @IsOptional()
+  @IsString({ message: 'Поле "full_name" должно быть строкой' })
   @MaxLength(200, {
     message: 'Поле "full_name" не может быть длиннее 200 символов',
   })
