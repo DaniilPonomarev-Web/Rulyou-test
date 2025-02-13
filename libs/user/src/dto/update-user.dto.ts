@@ -24,6 +24,7 @@ export class UpdateUserPayloadDTO implements IUpdateUserPayload {
   //     `Поле "role" должно быть из списка: ${Object.values(Role).join(', ')}`,
   // })
   // role?: Role;
+  @IsOptional()
   @IsNotEmpty({ message: 'Поле "role" не может быть пустым' })
   @IsString({ message: 'Поле "role" должно быть строкой' })
   @MaxLength(100, { message: 'Поле "role" не может быть длиннее 100 символов' })
