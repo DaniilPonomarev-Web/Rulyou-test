@@ -5,6 +5,7 @@ import {
   Min,
   Max,
   IsNotEmpty,
+  MaxLength,
 } from 'class-validator';
 import { IUpdateUserPayload } from '../types/user.types';
 // import { Role } from '../enums/role.enum';
@@ -12,6 +13,9 @@ import { IUpdateUserPayload } from '../types/user.types';
 export class UpdateUserPayloadDTO implements IUpdateUserPayload {
   @IsString({ message: 'Поле "full_name" должно быть строкой' })
   @IsOptional()
+  @MaxLength(200, {
+    message: 'Поле "full_name" не может быть длиннее 200 символов',
+  })
   full_name?: string;
 
   // @IsOptional()
@@ -22,6 +26,7 @@ export class UpdateUserPayloadDTO implements IUpdateUserPayload {
   // role?: Role;
   @IsNotEmpty({ message: 'Поле "role" не может быть пустым' })
   @IsString({ message: 'Поле "role" должно быть строкой' })
+  @MaxLength(100, { message: 'Поле "role" не может быть длиннее 100 символов' })
   role: string;
 
   @IsOptional()

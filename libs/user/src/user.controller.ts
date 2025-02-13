@@ -44,6 +44,9 @@ export class UserController {
     @Query() query: GetAllUsersQueryDTO,
   ): Promise<ApiResponse<{ users: UserDTO[] }>> {
     const users = await this.userService.findAll(query);
+    if (users.length === 0) {
+      return { success: false, result: { error: 'Пользователи не найдены' } };
+    }
     return { success: true, result: { users } };
   }
 

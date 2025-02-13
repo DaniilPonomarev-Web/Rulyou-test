@@ -19,12 +19,12 @@ export class UserDTO implements IUser {
 }
 
 export class GetAllUsersQueryDTO implements IGetAllUsersQuery {
-  // @IsOptional()
   // @IsEnum(Role, {
   //   message: () =>
   //     `Поле "role" должно быть из списка значений: ${Object.values(Role).join(', ')}`,
   // })
   // role?: Role;
+  @IsOptional()
   @IsNotEmpty({ message: 'Поле "role" не может быть пустым' })
   @IsString({ message: 'Поле "role" должно быть строкой' })
   role?: string;
