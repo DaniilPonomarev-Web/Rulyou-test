@@ -1,8 +1,10 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -24,62 +26,38 @@ export class UserController {
   @Post('create')
   async createUser(
     @Body(new ValidationPipe()) payload: CreateUserPayloadDTO,
-  ): Promise<ApiResponse<IUserIdResponse>> {
+  ): Promise<IUserIdResponse> {
     const newUser = await this.userService.createUser(payload);
-    if (newUser === null) {
-      return {
-        success: false,
-        result: { error: 'Ошибка создания пользователя' },
-      };
+    if (!newUser) {
+      throw new BadRequestException('Ошибка создания пользователя');
     }
-    return {
-      success: true,
-      result: { id: newUser.id },
-    };
+    return { id: newUser.id };
   }
 
   @Get('get')
-  @UsePipes(new ValidationPipe({ transform: true }))
-  async getAllUsers(
-    @Query() query: GetAllUsersQueryDTO,
-  ): Promise<ApiResponse<{ users: UserDTO[] }>> {
-    const users = await this.userService.findAll(query);
-    if (users.length === 0) {
-      return { success: false, result: { error: 'Пользователи не найдены' } };
-    }
-    return { success: true, result: { users } };
+  async getAllUsers(@Query() query: GetAllUsersQueryDTO): Promise<UserDTO[]> {
+    return this.userService.findAll(query);
   }
 
   @Get('get/:id')
-  async getUserById(
-    @Param() { id }: IdParamDTO,
-  ): Promise<ApiResponse<UserDTO>> {
+  async getUserById(@Param() { id }: IdParamDTO): Promise<UserDTO> {
     const user = await this.userService.findOneById(id);
-    if (user === null) {
-      return {
-        success: false,
-        result: { error: `Пользователь с id ${id} не найден` },
-      };
+    if (!user) {
+      throw new NotFoundException(`Пользователь с id ${id} не найден`);
     }
-    return { success: true, result: user };
+    return user;
   }
 
   @Patch('update/:id')
   async updateUser(
     @Param() { id }: IdParamDTO,
     @Body(new ValidationPipe()) payload: UpdateUserPayloadDTO,
-  ): Promise<ApiResponse<UserDTO>> {
+  ): Promise<UserDTO> {
     const updatedUser = await this.userService.updateUser(id, payload);
-    if (updatedUser === null) {
-      return {
-        success: false,
-        result: { error: `Ошибка при обновлении пользователя` },
-      };
+    if (!updatedUser) {
+      throw new BadRequestException('Ошибка при обновлении пользователя');
     }
-    return {
-      success: true,
-      result: updatedUser,
-    };
+    return updatedUser;
   }
 
   @Delete('delete/:id')
