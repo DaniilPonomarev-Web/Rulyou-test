@@ -1,35 +1,21 @@
-## Project setup
+Тестовое задание РУЛЮ - не приняли. 
+https://ekaterinburg.hh.ru/vacancy/116534780
+Запрос ЗП - от 140 000 до 250 000. 
 
-```bash
-$ yarn install
-```
+Ответ ТЛ: 
+**Здесь мне не понравилось решение в лоб, копировал и вставлял одинаковый кусок содержимого ответа в каждый эндпоинт
+Для этого в nest придуман interceptor, в котором можно модифицировать структуру ответа при успешном / неуспешном результате
+В официальной документации даже есть раздел про это
+https://docs.nestjs.com/interceptors#response-mapping
+Есть бесполезный, на мой взгляд index.ts файл (не критично, но я бы не использовал его)
+Непонятная папка libs в структуре проекта, которая содержит модули (они обычно располагаются сразу в src/
+Из плюсов
+Знает, что такое транзакции, использует их там, где надо
+Верно подметил, что поле role в бд должно быть ENUM`ом по идее**
 
-## Compile and run the project
 
-```bash
-# development
-$ yarn run start
 
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:user
-```
-
+Для запуска локально: 
 docker build -f Dockerfile.base -t crud-image:nx-base .
 docker build -f Dockerfile.deps -t crud-image:deps .
 docker compose -f docker-compose.qa.yml up --build -d
